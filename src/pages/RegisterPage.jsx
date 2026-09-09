@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { login } from "../api/auth";
+import { register } from "../api/auth";
 
-function LoginPage() {
+function RegisterPage() {
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ function LoginPage() {
     e.preventDefault();
 
     try {
-      const data = await login(email, password);
+      const data = await register(email, name, password);
       localStorage.setItem("token", data.token);
       navigate("/tasks");
       console.log(data);
@@ -28,9 +29,21 @@ function LoginPage() {
         onSubmit={handleSubmit}
         className="flex flex-col w-full max-w-sm gap-5 bg-white rounded-2xl shadow-lg p-8"
       >
-        <h1 className="text-2xl font-bold text-center text-navy">
-          Iniciar Sesión
-        </h1>
+        <h1 className="text-2xl font-bold text-center text-navy">Regístrate</h1>
+
+        <div className="flex flex-col gap-1">
+          <label htmlFor="name" className="text-sm font-medium text-gray-600">
+            Nombre
+          </label>
+          <input
+            id="name"
+            type="text"
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-navy"
+          />
+        </div>
 
         <div className="flex flex-col gap-1">
           <label htmlFor="email" className="text-sm font-medium text-gray-600">
@@ -69,13 +82,13 @@ function LoginPage() {
           type="submit"
           className="bg-orange text-white font-semibold py-2.5 rounded-lg hover:brightness-90 active:scale-95 hover:cursor-pointer transition"
         >
-          Login
+          Crear cuenta
         </button>
 
         <p className="text-xs italic text-center mt-2 text-navy">
-          ¿No tienes cuenta?{" "}
+          Ya tengo cuenta.{" "}
           <span className="text-navy-dark font-semibold hover:cursor-pointer hover:underline hover:underline-offset-2">
-            <Link to={"/register"}>Regístrate</Link>
+            <Link to={"/login"}>Iniciar sesión</Link>
           </span>
         </p>
       </form>
@@ -83,4 +96,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default RegisterPage;

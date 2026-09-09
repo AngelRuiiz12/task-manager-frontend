@@ -7,6 +7,7 @@ import {
   Outlet,
 } from "react-router";
 import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 
 function Home() {
   return <h1 className="text-3xl font-bold p-8">Página de Inicio</h1>;
@@ -45,6 +46,7 @@ function App() {
         </Route>
 
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
       </Routes>
     </BrowserRouter>
   );
