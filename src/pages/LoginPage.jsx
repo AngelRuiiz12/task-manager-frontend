@@ -1,12 +1,25 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
+import { login } from "../api/auth";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    console.log({ email, password });
+
+    try {
+      const data = await login(email, password);
+      localStorage.setItem("token", data.token);
+      navigate("/tasks");
+      console.log(data);
+    } catch (err) {
+      setError(err.message);
+      console.error(err.message);
+    }
   }
 
   return (
@@ -49,6 +62,8 @@ function LoginPage() {
             className="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-navy"
           />
         </div>
+
+        {error && <p className="text-coral text-sm text-center">{error}</p>}
 
         <button
           type="submit"

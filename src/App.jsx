@@ -41,6 +41,7 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/users/:id" element={<UserDetail />} />
+          <Route path="/tasks" element={<Home />} />
         </Route>
 
         <Route path="/login" element={<LoginPage />} />
