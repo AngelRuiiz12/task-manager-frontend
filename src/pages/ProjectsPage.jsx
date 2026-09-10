@@ -81,14 +81,21 @@ function ProjectsPage() {
       {projects.length === 0 ? (
         <p className="text-center text-navy">Todavía no tienes proyectos</p>
       ) : (
-        <ul>
-          {projects.map((project) => (
-            <li
-              key={project.id}
-              className="font-medium text-navy-dark"
-            >{`Id: ${project.id} - ${project.name}`}</li>
-          ))}
-        </ul>
+        <>
+          <h2 className="text-xl font-bold text-navy-dark text-center underline">
+            Proyectos:
+          </h2>
+          <ul>
+            {projects.map((project) => (
+              <li
+                key={project.id}
+                className="font-medium text-navy-dark text-center"
+              >
+                {project.name}
+              </li>
+            ))}
+          </ul>
+        </>
       )}
     </div>
   );
