@@ -1,21 +1,12 @@
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Link,
-  useParams,
-  Outlet,
-} from "react-router";
+import { BrowserRouter, Routes, Route, Link, Outlet } from "react-router";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import ProtectedRoute from "./components/ProtectedRoute";
+import TasksPage from "./pages/TasksPage";
+import ProjectsPage from "./pages/ProjectsPage";
 
 function Home() {
   return <h1 className="text-3xl font-bold p-8">Página de Inicio</h1>;
-}
-
-function UserDetail() {
-  const { id } = useParams();
-  return <h1 className="text-3xl font-bold p-8">Usuario con id: {id}</h1>;
 }
 
 function Layout() {
@@ -40,9 +31,10 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/users/:id" element={<UserDetail />} />
-          <Route path="/tasks" element={<Home />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/tasks" element={<TasksPage />} />
+            <Route path="/projects" element={<ProjectsPage />} />
+          </Route>
         </Route>
 
         <Route path="/login" element={<LoginPage />} />

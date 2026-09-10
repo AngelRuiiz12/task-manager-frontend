@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { register } from "../api/auth";
+import { useAuth } from "../context/AuthContext";
 
 function RegisterPage() {
   const [email, setEmail] = useState("");
@@ -8,13 +9,14 @@ function RegisterPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const { login: authLogin } = useAuth();
 
   async function handleSubmit(e) {
     e.preventDefault();
 
     try {
       const data = await register(email, name, password);
-      localStorage.setItem("token", data.token);
+      authLogin(data.user, data.token);
       navigate("/tasks");
       console.log(data);
     } catch (err) {
