@@ -5,7 +5,7 @@ export async function getProjects(token) {
     },
   });
 
-  const data = response.json();
+  const data = await response.json();
 
   if (!response.ok) {
     throw new Error(data.message);
@@ -24,7 +24,7 @@ export async function createProject(token, name) {
     body: JSON.stringify({ name }),
   });
 
-  const data = response.json();
+  const data = await response.json();
 
   if (!response.ok) {
     throw new Error(data.message);

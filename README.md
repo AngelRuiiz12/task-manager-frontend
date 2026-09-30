@@ -1,126 +1,95 @@
 # Task Manager Frontend
 
-Una aplicación web moderna de gestión de tareas construida con **React 19** y **Vite**. Cliente frontend profesional que se conecta a una API REST backend robusta.
+Una aplicación web moderna de gestión de tareas construida con **React 19** y **Vite**. Cliente frontend que se conecta a una API REST backend construida en Node.js.
 
 ## 🎯 Características
 
-- ✅ Gestión completa de tareas (crear, editar, eliminar, completar)
-- ✅ Autenticación segura con tokens JWT
-- ✅ Organización por categorías
-- ✅ Interfaz responsiva y moderna con Tailwind CSS
-- ✅ Validación en tiempo real
-- ✅ Manejo robusto de errores
-- ✅ Integration completa con API backend
+- ✅ Gestión de tareas y proyectos
+- ✅ Autenticación segura con JWT
+- ✅ Rutas protegidas
+- ✅ Interfaz responsiva con Tailwind CSS
 
 ## 🛠️ Stack Tecnológico
 
 - **React 19** - Librería UI moderna
 - **Vite** - Bundler ultra-rápido
+- **React Router** - Enrutamiento
 - **Tailwind CSS** - Estilos utilitarios
-- **Context API** - Gestión de estado
-- **Axios** - Cliente HTTP
+- **Context API** - Gestión de estado de autenticación
 
 ## 📦 Instalación
 
 ### Requisitos previos
 - Node.js 18+
-- npm o yarn
+- npm
 
 ### Pasos
 
 ```bash
-# Clonar el repositorio
 git clone https://github.com/AngelRuiiz12/task-manager-frontend.git
 cd task-manager-frontend
-
-# Instalar dependencias
 npm install
-
-# Crear archivo .env (copiar de .env.example)
 cp .env.example .env
-
-# Editar .env con la URL de tu API
-# VITE_API_URL=http://localhost:8000
 ```
+
+Edita `.env` con la URL de la API:
+
+VITE_API_URL=http://localhost:3000
+
 
 ## 🚀 Desarrollo
 
 ```bash
-# Iniciar servidor de desarrollo
 npm run dev
-
-# La aplicación estará disponible en http://localhost:5173
 ```
+
+La aplicación estará disponible en `http://localhost:5173`
 
 ## 🏗️ Estructura del Proyecto
 ```bash
 src/
+├── api/ # Llamadas a la API
+│ ├── auth.js
+│ ├── tasks.js
+│ └── projects.js
 ├── components/ # Componentes reutilizables
-│ ├── TaskList.jsx
-│ ├── TaskForm.jsx
 │ └── ProtectedRoute.jsx
-├── context/ # Context API para estado global
+├── context/ # Context API para autenticación
 │ └── AuthContext.jsx
 ├── pages/ # Páginas principales
 │ ├── LoginPage.jsx
 │ ├── RegisterPage.jsx
-│ └── DashboardPage.jsx
-├── services/ # Servicios API
-│ ├── authService.js
-│ └── taskService.js
+│ ├── TasksPage.jsx
+│ └── ProjectsPage.jsx
 ├── App.jsx
 └── main.jsx
 ```
 
 ## 🔌 API Backend
 
-Este frontend se conecta a la API backend `expense-tracker-api`:
+Este frontend se conecta a la API backend `task-manager-api`:
 
-- **Repositorio**: [AngelRuiiz12/expense-tracker-api](https://github.com/AngelRuiiz12/expense-tracker-api)
-- **Base URL**: Configurable en `.env` (default: `http://localhost:8000`)
+- **Repositorio**: [AngelRuiiz12/task-manager-api](https://github.com/AngelRuiiz12/task-manager-api)
+- **Stack**: Node.js, Express, Prisma, SQLite
+- **Base URL**: Configurable en `.env` (default: `http://localhost:3000`)
 - **Endpoints principales**:
-  - `POST /api/v1/auth/register` - Registro
-  - `POST /api/v1/auth/login` - Login
-  - `GET/POST /api/v1/tasks` - Gestión de tareas
+  - `POST /auth/register` - Registro
+  - `POST /auth/login` - Login
+  - `GET/POST /tasks` - Gestión de tareas
+  - `GET/POST /projects` - Gestión de proyectos
 
 ## 🔐 Variables de Entorno
 
 Crea un archivo `.env` basado en `.env.example`:
 
 ```env
-VITE_API_URL=http://localhost:8000
-```
-
-## 📝 Ejemplo de Uso
-
-1. **Registro**: Crea una cuenta nueva
-2. **Login**: Autentícate con tus credenciales
-3. **Crear tareas**: Usa el formulario para añadir nuevas tareas
-4. **Organizar**: Agrupa por categorías
-5. **Completar**: Marca tareas como completadas
-
-## 🧪 Testing
-
-```bash
-# Ejecutar tests
-npm run test
-```
-
-## 📦 Build para Producción
-
-```bash
-# Crear build optimizado
-npm run build
-
-# Previsualizar build
-npm run preview
+VITE_API_URL=http://localhost:3000
 ```
 
 ## 🤝 Autor
 
-**Ángel Ruiz** - Junior Backend Developer
+**Ángel Ruiz** - Junior Full Stack Developer  
 - GitHub: [@AngelRuiiz12](https://github.com/AngelRuiiz12)
-- Portfolio: [expense-tracker-api](https://github.com/AngelRuiiz12/expense-tracker-api)
 
 ## 📄 Licencia
 
