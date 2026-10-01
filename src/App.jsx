@@ -31,7 +31,7 @@ function Layout() {
 
   return (
     <div className="flex min-h-screen">
-      <aside className="w-56 shrink-0 bg-surface border-r border-border flex flex-col p-4">
+      <aside className="w-56 shrink-0 h-screen sticky top-0 overflow-y-auto bg-surface border-r border-border flex flex-col p-4">
         <p className="text-lg font-bold text-text text-center mb-6">
           Task Manager
         </p>

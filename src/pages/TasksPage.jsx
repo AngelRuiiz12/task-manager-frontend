@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
-import { Plus, Trash2, CheckCircle2, Circle, ListTodo } from "lucide-react";
+import {
+  Plus,
+  Trash2,
+  CheckCircle2,
+  Circle,
+  ListTodo,
+  FolderKanban,
+} from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { createTask, getTasks, updateTask, deleteTask } from "../api/tasks";
 import { getProjects } from "../api/projects";
@@ -92,6 +99,13 @@ function TasksPage() {
     return <p className="text-center text-danger p-8">{error}</p>;
   }
 
+  const groupedByProject = projects
+    .map((project) => ({
+      project,
+      tasks: tasks.filter((task) => task.projectId === project.id),
+    }))
+    .filter((group) => group.tasks.length > 0);
+
   return (
     <div className="max-w-2xl mx-auto px-4 py-10 flex flex-col gap-8">
       <Card>
@@ -136,51 +150,64 @@ function TasksPage() {
           description="Crea la primera con el formulario de arriba"
         />
       ) : (
-        <div className="flex flex-col gap-3">
-          {tasks.map((task) => (
-            <Card
-              key={task.id}
-              className="flex items-center justify-between gap-4 p-4"
-            >
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={() => handleToggleStatus(task)}
-                  className="text-text-muted hover:text-success cursor-pointer"
-                  title={
-                    task.status === "DONE"
-                      ? "Marcar como pendiente"
-                      : "Marcar como completada"
-                  }
-                >
-                  {task.status === "DONE" ? (
-                    <CheckCircle2 className="w-5 h-5 text-success" />
-                  ) : (
-                    <Circle className="w-5 h-5" />
-                  )}
-                </button>
+        <div className="flex flex-col gap-8">
+          {groupedByProject.map(({ project, tasks: projectTasks }) => (
+            <div key={project.id} className="flex flex-col gap-3">
+              <h3 className="flex items-center gap-2 text-sm font-semibold text-text-muted uppercase tracking-wide">
+                <FolderKanban className="w-4 h-4" />
+                {project.name}
+              </h3>
 
-                <span
-                  className={`text-text ${
-                    task.status === "DONE" ? "line-through text-text-muted" : ""
-                  }`}
-                >
-                  {task.title}
-                </span>
-              </div>
+              <div className="flex flex-col gap-3">
+                {projectTasks.map((task) => (
+                  <Card
+                    key={task.id}
+                    className="flex items-center justify-between gap-4 p-4"
+                  >
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() => handleToggleStatus(task)}
+                        className="text-text-muted hover:text-success cursor-pointer"
+                        title={
+                          task.status === "DONE"
+                            ? "Marcar como pendiente"
+                            : "Marcar como completada"
+                        }
+                      >
+                        {task.status === "DONE" ? (
+                          <CheckCircle2 className="w-5 h-5 text-success" />
+                        ) : (
+                          <Circle className="w-5 h-5" />
+                        )}
+                      </button>
 
-              <div className="flex items-center gap-3">
-                <Badge variant={STATUS_VARIANTS[task.status]}>
-                  {STATUS_LABELS[task.status]}
-                </Badge>
-                <button
-                  onClick={() => handleDelete(task.id)}
-                  className="text-text-muted hover:text-danger cursor-pointer"
-                  title="Eliminar tarea"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
+                      <span
+                        className={`text-text ${
+                          task.status === "DONE"
+                            ? "line-through text-text-muted"
+                            : ""
+                        }`}
+                      >
+                        {task.title}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <Badge variant={STATUS_VARIANTS[task.status]}>
+                        {STATUS_LABELS[task.status]}
+                      </Badge>
+                      <button
+                        onClick={() => handleDelete(task.id)}
+                        className="text-text-muted hover:text-danger cursor-pointer"
+                        title="Eliminar tarea"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </Card>
+                ))}
               </div>
-            </Card>
+            </div>
           ))}
         </div>
       )}
