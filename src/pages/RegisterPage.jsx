@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
+import { UserPlus } from "lucide-react";
 import { register } from "../api/auth";
 import { useAuth } from "../context/AuthContext";
+import Card from "../components/ui/Card";
+import Input from "../components/ui/Input";
+import Button from "../components/ui/Button";
 
 function RegisterPage() {
   const [email, setEmail] = useState("");
@@ -18,82 +22,62 @@ function RegisterPage() {
       const data = await register(email, name, password);
       authLogin(data.user, data.token);
       navigate("/tasks");
-      console.log(data);
     } catch (err) {
       setError(err.message);
-      console.error(err.message);
     }
   }
 
   return (
-    <div className="flex h-screen justify-center items-center bg-cream">
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col w-full max-w-sm gap-5 bg-white rounded-2xl shadow-lg p-8"
-      >
-        <h1 className="text-2xl font-bold text-center text-navy">Regístrate</h1>
+    <div className="flex justify-center items-center px-4 py-16">
+      <Card className="w-full max-w-sm">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+          <div className="flex flex-col items-center gap-2">
+            <UserPlus className="w-6 h-6 text-accent" />
+            <h1 className="text-xl font-semibold text-text">Crear cuenta</h1>
+          </div>
 
-        <div className="flex flex-col gap-1">
-          <label htmlFor="name" className="text-sm font-medium text-gray-600">
-            Nombre
-          </label>
-          <input
+          <Input
             id="name"
+            label="Nombre"
             type="text"
             required
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-navy"
           />
-        </div>
 
-        <div className="flex flex-col gap-1">
-          <label htmlFor="email" className="text-sm font-medium text-gray-600">
-            Email
-          </label>
-          <input
+          <Input
             id="email"
+            label="Email"
             type="email"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-navy"
           />
-        </div>
 
-        <div className="flex flex-col gap-1">
-          <label
-            htmlFor="password"
-            className="text-sm font-medium text-gray-600"
-          >
-            Contraseña
-          </label>
-          <input
+          <Input
             id="password"
+            label="Contraseña"
             type="password"
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-navy"
           />
-        </div>
 
-        {error && <p className="text-coral text-sm text-center">{error}</p>}
+          {error && <p className="text-danger text-sm text-center">{error}</p>}
 
-        <button
-          type="submit"
-          className="bg-orange text-white font-semibold py-2.5 rounded-lg hover:brightness-90 active:scale-95 hover:cursor-pointer transition"
-        >
-          Crear cuenta
-        </button>
+          <Button type="submit">Crear cuenta</Button>
 
-        <p className="text-xs italic text-center mt-2 text-navy">
-          Ya tengo cuenta.{" "}
-          <span className="text-navy-dark font-semibold hover:cursor-pointer hover:underline hover:underline-offset-2">
-            <Link to={"/login"}>Iniciar sesión</Link>
-          </span>
-        </p>
-      </form>
+          <p className="text-sm text-center text-text-muted">
+            Ya tengo cuenta.{" "}
+            <Link
+              to="/login"
+              className="text-accent font-medium hover:underline"
+            >
+              Iniciar sesión
+            </Link>
+          </p>
+        </form>
+      </Card>
     </div>
   );
 }

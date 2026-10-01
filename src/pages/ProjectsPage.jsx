@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
+import { Plus, FolderKanban } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { createProject, getProjects } from "../api/projects";
+import Card from "../components/ui/Card";
+import Input from "../components/ui/Input";
+import Button from "../components/ui/Button";
+import Spinner from "../components/ui/Spinner";
+import EmptyState from "../components/ui/EmptyState";
 
 function ProjectsPage() {
   const [loading, setLoading] = useState(true);
@@ -16,7 +22,6 @@ function ProjectsPage() {
         setProjects(result.data);
       } catch (err) {
         setError(err.message);
-        console.error(err.message);
       } finally {
         setLoading(false);
       }
@@ -31,71 +36,57 @@ function ProjectsPage() {
     try {
       const newProject = await createProject(token, name);
       setProjects([...projects, newProject]);
+      setName("");
     } catch (err) {
       setError(err.message);
-      console.error(err.message);
     }
   }
 
-  if (loading) {
-    return <p className="text-center text-navy p-8">Cargando proyectos...</p>;
-  }
+  if (loading) return <Spinner />;
 
   if (error) {
-    return <p className="text-center text-coral p-8">{error}</p>;
+    return <p className="text-center text-danger p-8">{error}</p>;
   }
 
   return (
-    <div className="flex flex-col h-screen justify-center items-center bg-cream gap-6">
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col w-full max-w-sm gap-5 bg-white rounded-2xl shadow-lg p-8"
-      >
-        <h1 className="text-2xl font-bold text-center text-navy">
-          Nuevo Proyecto
-        </h1>
+    <div className="max-w-2xl mx-auto px-4 py-10 flex flex-col gap-8">
+      <Card>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <h2 className="text-lg font-semibold text-text">Nuevo proyecto</h2>
 
-        <div className="flex flex-col gap-1">
-          <label htmlFor="name" className="text-sm font-medium text-gray-600">
-            Nombre
-          </label>
-          <input
+          <Input
+            label="Nombre"
             id="name"
-            type="text"
             required
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-navy"
           />
-        </div>
 
-        {error && <p className="text-coral text-sm text-center">{error}</p>}
+          <Button
+            type="submit"
+            className="self-start flex items-center gap-1.5"
+          >
+            <Plus className="w-4 h-4" />
+            Crear proyecto
+          </Button>
+        </form>
+      </Card>
 
-        <button
-          type="submit"
-          className="bg-orange text-white font-semibold py-2.5 rounded-lg hover:brightness-90 active:scale-95 hover:cursor-pointer transition"
-        >
-          Crear proyecto
-        </button>
-      </form>
       {projects.length === 0 ? (
-        <p className="text-center text-navy">Todavía no tienes proyectos</p>
+        <EmptyState
+          icon={FolderKanban}
+          title="Todavía no tienes proyectos"
+          description="Crea el primero con el formulario de arriba"
+        />
       ) : (
-        <>
-          <h2 className="text-xl font-bold text-navy-dark text-center underline">
-            Proyectos:
-          </h2>
-          <ul>
-            {projects.map((project) => (
-              <li
-                key={project.id}
-                className="font-medium text-navy-dark text-center"
-              >
-                {project.name}
-              </li>
-            ))}
-          </ul>
-        </>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {projects.map((project) => (
+            <Card key={project.id} className="flex items-center gap-3">
+              <FolderKanban className="w-5 h-5 text-accent shrink-0" />
+              <span className="text-text font-medium">{project.name}</span>
+            </Card>
+          ))}
+        </div>
       )}
     </div>
   );

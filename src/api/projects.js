@@ -1,8 +1,8 @@
+const BASE_URL = `${import.meta.env.VITE_API_URL}/projects`;
+
 export async function getProjects(token) {
-  const response = await fetch(`${import.meta.env.VITE_API_URL}/projects`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+  const response = await fetch(BASE_URL, {
+    headers: { Authorization: `Bearer ${token}` },
   });
 
   const data = await response.json();
@@ -15,7 +15,7 @@ export async function getProjects(token) {
 }
 
 export async function createProject(token, name) {
-  const response = await fetch(`${import.meta.env.VITE_API_URL}/projects`, {
+  const response = await fetch(BASE_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -24,11 +24,11 @@ export async function createProject(token, name) {
     body: JSON.stringify({ name }),
   });
 
-  const data = await response.json();
+  const result = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.message);
+    throw new Error(result.message);
   }
 
-  return data;
+  return result;
 }
