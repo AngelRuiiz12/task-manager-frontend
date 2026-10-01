@@ -4,10 +4,13 @@ Una aplicación web moderna de gestión de tareas construida con **React 19** y 
 
 ## 🎯 Características
 
-- ✅ Gestión de tareas y proyectos
+- ✅ Tareas organizadas por estado (pendiente, en progreso y completada), con las activas destacadas arriba
+- ✅ Filtrado de tareas por proyecto, con etiqueta de color por cada uno
+- ✅ Creación de tareas mediante ventana modal
+- ✅ Dashboard de inicio con estadísticas, progreso general y resumen de actividad
 - ✅ Autenticación segura con JWT
 - ✅ Rutas protegidas
-- ✅ Interfaz responsiva con Tailwind CSS
+- ✅ Interfaz responsiva y minimalista con Tailwind CSS, con menú lateral que se adapta a móvil
 
 ## 🛠️ Stack Tecnológico
 
@@ -15,6 +18,7 @@ Una aplicación web moderna de gestión de tareas construida con **React 19** y 
 - **Vite** - Bundler ultra-rápido
 - **React Router** - Enrutamiento
 - **Tailwind CSS** - Estilos utilitarios
+- **lucide-react** - Iconografía minimalista
 - **Context API** - Gestión de estado de autenticación
 
 ## 📦 Instalación
@@ -52,11 +56,20 @@ src/
 │ ├── auth.js
 │ ├── tasks.js
 │ └── projects.js
-├── components/ # Componentes reutilizables
+├── components/
+│ ├── ui/ # Componentes de interfaz reutilizables
+│ │ ├── Card.jsx
+│ │ ├── Button.jsx
+│ │ ├── Input.jsx
+│ │ ├── Badge.jsx
+│ │ ├── Modal.jsx
+│ │ ├── Spinner.jsx
+│ │ └── EmptyState.jsx
 │ └── ProtectedRoute.jsx
 ├── context/ # Context API para autenticación
 │ └── AuthContext.jsx
 ├── pages/ # Páginas principales
+│ ├── HomePage.jsx
 │ ├── LoginPage.jsx
 │ ├── RegisterPage.jsx
 │ ├── TasksPage.jsx
